@@ -3,174 +3,104 @@ package service
 import (
 	"fmt"
 	"myproject/texasPoker/model"
-	"strings"
 )
 
-func compareLetter(astr,bstr string) (result int) {
-	a := model.CardLetters[astr]
-	b := model.CardLetters[bstr]
-	if a > b {
-		return model.GREAT
-	}
-	if a < b {
-		return model.LESS
-	}
-	return model.EQUAL
-}
+// 快速排列算法
+func quickSort(CardList *[]model.CardFace, start int ,end int ) {
 
+	var i,j = start,end
 
-//单张
-func CompareNoPair(aFace,bFace string) (result int) {
-	len := len(aFace)
-	a := aFace[len - 1:len]
-	b := bFace[len - 1:len]
+	//基值
+	key := (*CardList)[start]
 
-	return compareLetter(a,b)
-}
-
-//三条
-func CompareThreeOfAKind(aFace,bFace string) (result int) {
-	var a,b string
-	len := len(aFace)
-	for i := 0; i < len - 3; i++ {
-		letter := aFace[i:i+1]
-		if 3 == strings.Count(aFace, letter) {
-			a = letter
-			break
+	for ; i < j;  {
+		//不小于基值的
+		for ; (*CardList)[j].Index >= key.Index && j > i; {
+			j--
 		}
-	}
-	for i := 0; i < len - 3 ; i++ {
-		letter := bFace[i:i+1]
-		if 3 == strings.Count(aFace, letter) {
-			b = letter
-			break
-		}
-	}
-	return compareLetter(a,b)
-}
 
+		if j > i {
+			//小于基准值的数往前扔
+			(*CardList)[i] = (*CardList)[j]
+			i++
 
-//同花
-func CompareStraight(aFace,bFace string) (result int) {
-	len := len(aFace)
-	a := aFace[len - 1:len]
-	b := bFace[len - 1:len]
-
-	return compareLetter(a,b)
-}
-
-//同花
-func CompareFlush(aFace,bFace string) (result int) {
-	len := len(aFace)
-	a := aFace[len - 1:len]
-	b := bFace[len - 1:len]
-
-	return compareLetter(a,b)
-}
-
-//俘虏
-func CompareFullHouse(aFace,bFace string) (result int) {
-	var a,b string
-	len := len(aFace)
-	for i := 0; i < len - 3; i++ {
-		letter := aFace[i:i+1]
-		if 3 == strings.Count(aFace, letter) {
-			a = letter
-			break
-		}
-	}
-	for i := 0; i < len - 3 ; i++ {
-		letter := bFace[i:i+1]
-		if 3 == strings.Count(aFace, letter) {
-			b = letter
-			break
+			for ;(*CardList)[i].Index <= key.Index && i < j; {
+				i++
+			}
+			if i < j {
+				//大于基准值的往后扔
+				(*CardList)[j] = (*CardList)[i]
+				j--
+			}
 		}
 	}
 
-	return compareLetter(a,b)
+	(*CardList)[i] = key
+	//fmt.Printf("排序中：%v,i=%d,j=%d\n", *CardList, i, j)
+	if start < i {
+		quickSort(CardList, start, i )
+	}
+	if j+1 < end {
+		quickSort(CardList, j+1, end )
+	}
 }
 
-//四条
-func CompareFourOfAKind(aFace,bFace string) (result int) {
-	var a,b string
-	len := len(aFace)
-	for i := 0; i < len - 3; i++ {
-		letter := aFace[i:i+1]
-		if 4 == strings.Count(aFace, letter) {
-			a = letter
-			break
+/*
+*description: 对一手卡牌进行排序,升序
+*param: card: 一手卡牌
+*return: 排序后的卡牌
+*/
+func SortCard(handcard *model.HandCards)  string {
+	card := handcard.Src
+	if "" == card || 0 ==len(card) {
+		return ""
+	}
+
+	var CardList []model.CardFace
+
+
+	// 解析牌面
+	for i := 0; i < model.CardAmount; i++ {
+		n := 2 * i
+		m := n + 2
+
+		letter := card[n : n+1]
+		singleCard := model.CardFace{
+			Face: letter,
+			Color: card[n+1: m],
+			Index: model.CardLetters[letter],
 		}
+		CardList = append(CardList, singleCard)
 	}
-	for i := 0; i < len - 3 ; i++ {
-		letter := bFace[i:i+1]
-		if 4 == strings.Count(aFace, letter) {
-			b = letter
-			break
-		}
+
+	//fmt.Println("排序前：", CardList)
+	// 对handcard排序
+	quickSort(&CardList,0, len(CardList) - 1)
+	//fmt.Println("排序后：", CardList)
+
+	//重新生成新的字符串
+	newSort := ""
+	for _,v := range CardList {
+		newSort = newSort + v.Face + v.Color
+		handcard.SortFace = handcard.SortFace + v.Face
+		handcard.SortColor = handcard.SortColor + v.Color
 	}
-	return compareLetter(a,b)
+	handcard.Sort = newSort
+	return newSort
 }
 
-//同花顺
-func CompareStraightFlush(aFace,bFace string) (result int) {
-	len := len(aFace)
-	a := aFace[len - 1:len]
-	b := bFace[len - 1:len]
 
-	return compareLetter(a,b)
-}
+func SortTwoHandCard(alice,bob *model.HandCards) (error){
 
-//通过牌面face比较大小
-func compareByFace(aliceFace, bobFace string, pokerType int) (result int) {
-
-	switch pokerType {
-	case model.ROYALFLUSH:
-		return model.EQUAL
-	case model.STRAIGHTFLUSH:
-		fmt.Println(aliceFace, bobFace)
-		return CompareStraightFlush(aliceFace, bobFace)
-	case model.FOUROFAKIND:
-		return CompareFourOfAKind(aliceFace, bobFace)
-	case model.FULLHOUSE:
-		return CompareFullHouse(aliceFace, bobFace)
-	case model.FlUSH:
-		return CompareFlush(aliceFace, bobFace)
-	case model.STRAIGHT:
-		return CompareStraight(aliceFace, bobFace)
-	case model.THREEOFAKIND:
-		return CompareThreeOfAKind(aliceFace, bobFace)
-	case model.TWOPAIR:
-		return
-	case model.ONEPAIR:
-		return
-	case model.NOPAIR:
-		return CompareNoPair(aliceFace, bobFace)
-	}
-	return model.EQUAL
-}
-
-// 通过牌面的类型比较大小
-func compareByType(alice, bob int) (result int) {
-	if alice > bob {
-		return model.GREAT
-	}
-	if alice < bob {
-		return model.LESS
-	}
-	return model.EQUAL
-}
-
-func CompareTwoHandCard(Alice, Bob *model.HandCards) (result int) {
-
-	// 解析牌，排序
-	ClassifyCard(Alice)
-	ClassifyCard(Bob)
-
-	result = compareByType(Alice.Type, Bob.Type)
-	if result == model.EQUAL {
-		//同一类型牌面
-		return compareByFace(Alice.SortFace, Bob.SortFace, Alice.Type)
+	if alice.Sort = SortCard(alice); "" == alice.Sort {
+		fmt.Errorf("alice SortCard %s failed", alice.Src)
+		return fmt.Errorf("alice SortCard failed")
 	}
 
-	return result
+	if bob.Sort = SortCard(bob); "" == bob.Sort {
+		fmt.Errorf("bob SortCard %s failed", bob.Src)
+		return fmt.Errorf("bob SortCard failed")
+	}
+
+	return nil
 }

@@ -2,26 +2,30 @@ package model
 
 
 //一手牌的牌个数
-const CardAmount = 5
+const FiveCard 	= 5
+const SevenCard = 7
+
+const CardAmount = FiveCard
 //用来表示一组卡牌所需的字符数
 const AmountOfCardLetter = CardAmount * 2
 
 //牌面的组成成员
-const CardStr  = "23456789TJQKA"
+const CardStr  = "A23456789TJQKA"
+
 
 //为牌面的符号编号
 var CardLetters = map[string]int {"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"T":10,"J":11,"Q":12,"K":13,"A":14}
 
 //牌的种类
-var CardColor = []string{"s", "h", "c","d"}
+var CardColor = []string{SPADE, HEART, CLUB, DIAMOND}
 var FaceList = []string{"2","3","4","5","6","7","8","9","T","J","Q","K","A"}
 
 // 牌的种类
 const (
-	SPADE="s"	//黑桃
-	HAERT="h"	//红心
-	CLUB="c"	//草花
-	DIAMOND="d"	//砖石
+	SPADE	=	"s"	//黑桃
+	HEART	=	"h"	//红心
+	CLUB	=	"c"	//草花
+	DIAMOND	=	"d"	//砖石
 )
 
 
@@ -53,6 +57,35 @@ var HandCardType = map[int]string{
 	ONEPAIR 		: "ONE PAIR",		//一对
 	NOPAIR  		: "NO PAIR",		//单张
 }
+
+
+//顺子
+const (
+	SA2345 = "2345A"
+	S23456 = "23456"
+	S34567 = "34567"
+	S45678 = "45678"
+	S56789 = "56789"
+	S6789T = "6789T"
+	S789TJ = "789TJ"
+	S89TJQ = "89TJQ"
+	S9TJQK = "9TJQK"
+	STJQKA = "TJQKA"
+)
+var StraightList = map[string]int{
+	SA2345 : 1,
+	S23456 : 2,
+	S34567 : 3,
+	S45678 : 4,
+	S56789 : 5,
+	S6789T : 6,
+	S789TJ : 7,
+	S89TJQ : 8,
+	S9TJQK : 9,
+	STJQKA : 10,
+}
+
+
 // 单张牌的信息
 type CardFace struct {
 	Face 	string 	`json:"face" fname:"牌面"`

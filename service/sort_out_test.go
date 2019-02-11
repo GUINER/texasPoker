@@ -2,14 +2,16 @@ package service
 
 import (
 	"fmt"
-	//"myproject/texasPoker/service"
+	"myproject/texasPoker/model"
 	"testing"
 )
 
-func TestCompareStraightFlush(t *testing.T) {
-	card1 := "AsKsQsJsTs"
-	card2 := "AsKsQsJsTs"
-	result := CompareStraightFlush(card1, card2)
+func TestSortTwoHandCard(t *testing.T) {
+	alice := model.HandCards{Src:""}
+	bob := model.HandCards{Src:""}
 
-	fmt.Printf("result: %d\n",result)
+	if err := SortTwoHandCard(&alice, &bob); err != nil {
+		fmt.Errorf("Error : %v", err)
+	}
+	fmt.Printf("alice[%s] - bob[%s]\n", alice.Sort, bob.Sort)
 }
