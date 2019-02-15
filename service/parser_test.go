@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"myproject/texasPoker/model"
 	"testing"
 )
 
@@ -13,4 +14,20 @@ func TestSevenCardHasStraight(t *testing.T) {
 	} else {
 		fmt.Printf("[%s] 不是顺子", sevenCardFace)
 	}
+}
+
+func TestSevenCardParse(t *testing.T) {
+	alice := model.HandCards{
+		SortFace: 	"A556789",
+		IsGhost:	false,
+	}
+	SevenCardParse(&alice)
+	fmt.Println(model.HandCardType[alice.Type])
+}
+
+func TestSevenCardHasFlush(t *testing.T) {
+	alice := model.HandCards{
+
+	}
+	SevenCardHasFlush(&alice)
 }

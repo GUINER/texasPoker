@@ -1,9 +1,13 @@
 package model
 
 
-//一手牌的牌个数
-const FiveCard 	= 5
-const SevenCard = 7
+//一手牌的牌种类
+const (
+	FiveCard 	= 5
+	FiveCardWithGhost =  6
+	SevenCard 	= 7
+	SevenCardWithGhost = 8
+)
 
 const CardAmount = FiveCard
 //用来表示一组卡牌所需的字符数
@@ -14,19 +18,34 @@ const CardStr  = "A23456789TJQKA"
 
 
 //为牌面的符号编号
-var CardLetters = map[string]int {"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"T":10,"J":11,"Q":12,"K":13,"A":14}
+var CardLetters = map[string]int {"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"T":10,"J":11,"Q":12,"K":13,"A":14,"X":15}
+var FaceList = []string{"2","3","4","5","6","7","8","9","T","J","Q","K","A","X"}
+const (
+	Ace 	= "A"
+	Two 	= "2"
+	Three 	= "3"
+	Four 	= "4"
+	Five 	= "5"
+	Six 	= "6"
+	Seven 	= "7"
+	Eight 	= "8"
+	Nine 	= "9"
+	Ten 	= "T"
+	Jazz 	= "J"
+	Queen 	= "Q"
+	King 	= "K"
+	Ghost 	= "X"
+)
 
-//牌的种类
-var CardColor = []string{SPADE, HEART, CLUB, DIAMOND}
-var FaceList = []string{"2","3","4","5","6","7","8","9","T","J","Q","K","A"}
-
-// 牌的种类
+//牌的花色
 const (
 	SPADE	=	"s"	//黑桃
 	HEART	=	"h"	//红心
 	CLUB	=	"c"	//草花
 	DIAMOND	=	"d"	//砖石
+	GhostColor	=	"n"	//赖子花色
 )
+var CardColor = []string{SPADE, HEART, CLUB, DIAMOND, GhostColor}
 
 
 
@@ -42,6 +61,7 @@ const (
 	TWOPAIR 		= 3			//二对
 	ONEPAIR 		= 2			//一对
 	NOPAIR  		= 1			//单张
+	UNKNOWN			= 0
 )
 
 //牌面类型
@@ -56,6 +76,7 @@ var HandCardType = map[int]string{
 	TWOPAIR 		: "TWO PAIR",		//二对
 	ONEPAIR 		: "ONE PAIR",		//一对
 	NOPAIR  		: "NO PAIR",		//单张
+	UNKNOWN			: "Unknown type",	//未知类型
 }
 
 
@@ -72,6 +93,7 @@ const (
 	S9TJQK = "9TJQK"
 	STJQKA = "TJQKA"
 )
+// 顺子等级
 var StraightList = map[string]int{
 	SA2345 : 1,
 	S23456 : 2,
@@ -84,6 +106,10 @@ var StraightList = map[string]int{
 	S9TJQK : 9,
 	STJQKA : 10,
 }
+//顺子编号
+var StraightRankList = []string{
+	SA2345, S23456, S34567 ,S45678 ,S56789 ,S6789T ,S789TJ ,S89TJQ, S9TJQK, STJQKA,
+}
 
 
 // 单张牌的信息
@@ -95,11 +121,12 @@ type CardFace struct {
 
 // 一手扑克牌
 type HandCards struct {
-	Src 	string `json:"src" fname:"原始的一手牌"`
-	Sort 	string `json:"sort" fname:"排序后的一手牌"`
+	Src 		string `json:"src" fname:"原始的一手牌"`
+	Sort 		string `json:"sort" fname:"排序后的一手牌"`
 	SortFace 	string `json:"sort_face" fname:"排序后的一手牌面"`
 	SortColor 	string `json:"sort_color" fname:"排序后的一手牌色"`
-	Type 	int	   `json:"type" fname:"牌面类型"`
+	Type 		int	   `json:"type" fname:"牌面类型"`
+	IsGhost		bool   `json:"is_ghost" fname:"是否有赖子"`
 }
 
 

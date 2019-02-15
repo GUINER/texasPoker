@@ -21,8 +21,8 @@ import (
 func CardIsStraight(cardFace string) (bool, error) {
 
 	if cardFace == ""  {
-		fmt.Errorf("the cardFace %s is invalod", cardFace)
-		return false,fmt.Errorf("format is invalid")
+		fmt.Errorf("the cardFace %s is invalid", cardFace)
+		return false, fmt.Errorf("format is invalid")
 	}
 	lenght := len(cardFace)
 	if model.FiveCard == lenght {
@@ -56,7 +56,7 @@ func CardIsFlush(cardColor string) (bool, error) {
 func CardIsRoyalStraight(cardface string) bool {
 
 	if "" == cardface {
-		fmt.Errorf("CardIsRoyalStraight card[%s] is null ", cardface)
+		fmt.Printf("CardIsRoyalStraight card[%s] is null ", cardface)
 		return false
 	}
 
@@ -168,13 +168,11 @@ func CardIsOnePair(cardface string) bool {
 
 //其他牌类分类
 func OtherSubClassify(handcard *model.HandCards) (err error) {
-
 	//1. 四条
 	if CardIsFourOfAKind(handcard.SortFace) {
 		handcard.Type = model.FOUROFAKIND
-		return nil
+		return
 	}
-
 	//2. 俘虏/三条
 	if CardIsThreeOfAKind(handcard.SortFace) {
 		if CardContainOnePair(handcard.SortFace) {
@@ -182,32 +180,29 @@ func OtherSubClassify(handcard *model.HandCards) (err error) {
 		} else {
 			handcard.Type = model.THREEOFAKIND
 		}
-		return nil
+		return
 	}
-
 	//3. 二对
 	if CardIsTwoPair(handcard.SortFace) {
 		handcard.Type = model.TWOPAIR
-		return nil
+		return
 	}
-
 	//4. 一对
 	if CardIsOnePair(handcard.SortFace) {
 		handcard.Type = model.ONEPAIR
-		return nil
+		return
 	}
 	//5. 单张
 	handcard.Type = model.NOPAIR
 
-	return nil
+	return
 }
 
 // 对输入的一手卡牌归类
 func ClassifyCard(handcard *model.HandCards) (err error) {
-
 	//判断是否为顺子
 	if IsStraight, err := CardIsStraight(handcard.SortFace); err != nil {
-		fmt.Errorf("CardIsStraight error: %s", err.Error())
+		return fmt.Errorf("CardIsStraight error: %s", err.Error())
 	} else {
 		if IsStraight == true {	// 顺子类
 			StraightSubClassify(handcard)
