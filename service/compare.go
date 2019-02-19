@@ -127,9 +127,9 @@ func CompareStraight(aFace,bFace string) (result int) {
 
 //同花
 func CompareFlush(aFace,bFace string) (result int) {
-	len := len(aFace)
-	a := aFace[len - 1:len]
-	b := bFace[len - 1:len]
+	lenght := len(aFace)
+	a := aFace[lenght - 1:lenght]
+	b := bFace[lenght - 1:lenght]
 
 	return compareLetter(a,b)
 }

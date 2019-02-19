@@ -85,7 +85,7 @@ func SevenCardStraightFlushAndFlush(any *model.HandCards, s string) {
 	}
 
 	for _, color := range model.CardColor {
-		if count := strings.Count(any.Sort, color); count >= countLimit {
+		if count := strings.Count(any.Sort, color); count >= countLimit {	//花色
 			tmpface := ""
 			matchList := []string{}
 			handcard := any.Sort
@@ -95,6 +95,10 @@ func SevenCardStraightFlushAndFlush(any *model.HandCards, s string) {
 				matchList = append(matchList, face)
 				handcard = strings.Replace(handcard, face + color, "", 1)
 				tmpface = tmpface + face
+				//fmt.Println(tmpface)
+			}
+			if any.IsGhost {
+				tmpface = tmpface + model.Ghost
 			}
 
 			count = 0
@@ -116,6 +120,7 @@ func SevenCardStraightFlushAndFlush(any *model.HandCards, s string) {
 	}
 	if model.STRAIGHT == any.Type {
 		any.SortFace = s
+		any.Type = model.STRAIGHT
 	}
 	return
 }
@@ -368,10 +373,10 @@ func SevenCardOtherClassParse(any *model.HandCards) {
 	if SevenCardFullHouseAndThreeKind(any) {
 		return
 	}
-	if SevenCardFlush(any) {
-		any.Type = model.FlUSH
-		return
-	}
+	//if SevenCardFlush(any) {
+	//	any.Type = model.FlUSH
+	//	return
+	//}
 	//if SevenCardThreeOfAkind(any) {
 	//
 	//}
@@ -397,8 +402,11 @@ func SevenCardParse(any *model.HandCards)  {
 	if isStraight, mStraight := SevenCardHasStraight2(any); isStraight {
 		// 是否包含同花
 		if SevenCardHasFlush(any) {
-			// 分出同花顺、同花、顺子
+			// 分出同花顺、同花
+			//fmt.Println(any.Src)
 			SevenCardStraightFlushAndFlush(any, mStraight)
+		} else {
+			any.SortFace = mStraight
 		}
 	} else { // 没有顺子
 		SevenCardOtherClassParse(any)

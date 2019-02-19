@@ -39,17 +39,17 @@ func StartService(filename string) {
 		var bob = model.HandCards{Src: v.Bob}
 
 		//2. 两手牌进行比较
-		result := CompareTwoHandCard(&alice, &bob)
-		//CompareTwoHandCard(&alice, &bob)
+		//result := CompareTwoHandCard(&alice, &bob)
+		CompareTwoHandCard(&alice, &bob)
 
 		//3. 输出结果
 		//fmt.Printf("%d. ",k)
 		//OutputResult(alice.Src, bob.Src, result)
-		if -1 == result {
-			fmt.Println(alice)
-			fmt.Println(bob)
-			fmt.Println()
-		}
+		//if -1 == result {
+		//	fmt.Println(alice)
+		//	fmt.Println(bob)
+		//	fmt.Println()
+		//}
 
 	}
 }

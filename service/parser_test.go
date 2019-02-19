@@ -185,4 +185,22 @@ func TestSevenCardNoPairs(t *testing.T) {
 	}
 }
 
+func TestSevenCardStraightFlushAndFlush(t *testing.T) {
+	var PokerList []model.HandCards
+	PokerList = append(PokerList, model.HandCards{Src:"6d7dXn3hTd5h4d"})
+	//PokerList = append(PokerList, model.HandCards{Src:"Ad4d9d5h7d7c6d"})
+	//PokerList = append(PokerList, model.HandCards{Src:"AdTdJd8h7d7cKd"})
+	//PokerList = append(PokerList, model.HandCards{Src:"XnAd6d7hTd3d5d"})
+
+	//for k, alice := range PokerList {
+	//	alice.IsGhost, _ = HasGhost(alice.Src)
+	//	SortCard(&alice)
+	//	if SevenCardStraightFlushAndFlush(&alice, ) {
+	//		alice.Type = model.NOPAIR
+	//	}
+	//	fmt.Print(k+1, ". ", alice)
+	//	fmt.Println(" handcard type: ", model.HandCardType[alice.Type])
+	//}
+}
+
 //=========================7张牌测试end=======================
