@@ -140,7 +140,7 @@ const (
 type OnePoker struct {
 	Alice 	string 	`json:"alice" fname:"Alice的牌"`
 	Bob   	string 	`json:"bob" fname:"Bob的牌"`
-	Result 	int 	`json:"result" fname："比较结果"`
+	Result 	int 	`json:"result" fname:"比较结果"`
 }
 
 type PokerData struct {

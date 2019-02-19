@@ -60,7 +60,7 @@ func SortCard(handcard *model.HandCards)  string {
 
 
 	// 解析牌面
-	for i := 0; i < model.CardAmount; i++ {
+	for i := 0; i < len(card)/2; i++ {
 		n := 2 * i
 		m := n + 2
 
@@ -93,13 +93,11 @@ func SortCard(handcard *model.HandCards)  string {
 func SortTwoHandCard(alice,bob *model.HandCards) (error){
 
 	if alice.Sort = SortCard(alice); "" == alice.Sort {
-		fmt.Errorf("alice SortCard %s failed", alice.Src)
-		return fmt.Errorf("alice SortCard failed")
+		return fmt.Errorf("alice SortCard %s failed", alice.Src)
 	}
 
 	if bob.Sort = SortCard(bob); "" == bob.Sort {
-		fmt.Errorf("bob SortCard %s failed", bob.Src)
-		return fmt.Errorf("bob SortCard failed")
+		return fmt.Errorf("bob SortCard %s failed", bob.Src)
 	}
 
 	return nil

@@ -21,8 +21,7 @@ import (
 func CardIsStraight(cardFace string) (bool, error) {
 
 	if cardFace == ""  {
-		fmt.Errorf("the cardFace %s is invalid", cardFace)
-		return false, fmt.Errorf("format is invalid")
+		return false, fmt.Errorf("the cardFace %s is invalid", cardFace)
 	}
 	lenght := len(cardFace)
 	if model.FiveCard == lenght {
@@ -96,7 +95,7 @@ func NotStraightSubClassify(handcard *model.HandCards) (err error) {
 		if true == IsFlush {
 			handcard.Type = model.FlUSH	// 同花
 		} else {
-			OtherSubClassify(handcard)
+			err = OtherSubClassify(handcard)
 		}
 	}
 	return nil
@@ -205,9 +204,9 @@ func ClassifyCard(handcard *model.HandCards) (err error) {
 		return fmt.Errorf("CardIsStraight error: %s", err.Error())
 	} else {
 		if IsStraight == true {	// 顺子类
-			StraightSubClassify(handcard)
+			err = StraightSubClassify(handcard)
 		} else {	//非顺子类
-			NotStraightSubClassify(handcard)
+			err = NotStraightSubClassify(handcard)
 		}
 	}
 

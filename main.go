@@ -16,15 +16,16 @@ func GetPokerJsonData(filename string, v interface{}) {
 
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
-		fmt.Errorf("ioutil.ReadFile %s, error: %v", filename, err)
+		fmt.Printf("ioutil.ReadFile %s, error: %v\n", filename, err)
 		return
+
 	}
 
 	//读取的数据为json格式，需要进行解码
 	err = json.Unmarshal(data, v)
 	//fmt.Print(v)
 	if err != nil {
-		fmt.Errorf("json.Unmarshal %s, error: %v", filename, err)
+		fmt.Printf("json.Unmarshal %s, error: %v\n", filename, err)
 		return
 	}
 }
