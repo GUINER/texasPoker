@@ -148,7 +148,7 @@ func SevenCardFourOfAKind(any *model.HandCards) bool {
 					}
 				}
 			} else {
-				// 3+X+1
+				// 3+1+X
 				cardface = strings.Replace(cardface, face, "", count)
 				cardface = strings.Replace(cardface, model.Ghost, "", 1)
 				lenght = len(cardface)
@@ -250,12 +250,12 @@ func SevenCardFlush(any *model.HandCards) bool {
 			cardface := any.SortFace
 			lenght := len(cardface)
 			tmpface := ""
-
-
 			num := 0
+
 			for i := lenght - 1; i >= 0; i-- {
-				if color == any.SortColor[i-1:i] || model.Ghost == any.SortColor[i-1:i] {
-					tmpface = any.SortFace[i-1:i] + tmpface
+				tmpcolor := any.SortColor[i:i+1]
+				if color == tmpcolor || "n" == tmpcolor {
+					tmpface = any.SortFace[i:i+1] + tmpface
 					num++
 					if 5 == num {
 						any.SortFace = tmpface
@@ -285,23 +285,24 @@ func SevenCardTwoPairs(any *model.HandCards) bool {
 	single := 0
 	cardface := any.SortFace
 	lenght := len(cardface)
-	tmpface := cardface
+	tmpface := ""
 
 	for i := lenght - 1; i >= 0; i-- {
-		face := cardface[i-1:i]
+		face := cardface[i:i+1]
 
-		if count := strings.Count(cardface, face); count == countLimit {
+		if count := strings.Count(cardface, face); count == countLimit && pairs != countLimit {
 			if pairs == countLimit {
 				continue
 			}
+			i--
 			tmpface = face + face + tmpface
 			pairs++
-		} else if 0 == single && 1 == count {
+		} else if 0 == single {
 			tmpface = face + tmpface
 			single++
 		}
 	}
-	if 0 == single && countLimit == pairs {
+	if 1 == single && countLimit == pairs {
 		any.SortFace = tmpface
 		return true
 	}
@@ -324,18 +325,19 @@ func SevenCardOnePairs(any *model.HandCards) bool {
 	tmpface := ""
 
 	for i := lenght - 1; i >= 0; i-- {
-		face := cardface[i-1:i]
+		face := cardface[i:i+1]
 		if count := strings.Count(cardface, face); count == countLimit {
 			if 1 == pairs {
 				continue
 			}
-			tmpface = face + tmpface
+			tmpface = face + face + tmpface
 			pairs++
 		} else if single < 3 && 1 == count {
 			tmpface = face + tmpface
 			single++
 		}
 		if 3 == single && 1 == pairs {	//2+1+1+1
+		any.SortFace = tmpface
 			return true
 		}
 	}
