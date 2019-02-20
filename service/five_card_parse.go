@@ -198,7 +198,7 @@ func OtherSubClassify(handcard *model.HandCards) (err error) {
 }
 
 // 对输入的一手卡牌归类
-func ClassifyCard(handcard *model.HandCards) (err error) {
+func FiveCardParse(handcard *model.HandCards) (err error) {
 	//判断是否为顺子
 	if IsStraight, err := CardIsStraight(handcard.SortFace); err != nil {
 		return fmt.Errorf("CardIsStraight error: %s", err.Error())

@@ -272,16 +272,7 @@ func CompareTwoHandCard(Alice, Bob *model.HandCards) (result int) {
 	//2. 解析
 	ParseTwoHandCard(Alice, Bob)
 
-	//3. 分类
-	if ! Alice.IsGhost {
-		ClassifyCard(Alice)
-	}
-	if ! Bob.IsGhost {
-		ClassifyCard(Bob)
-	}
-
-
-	//4. 比较大小
+	//3. 比较大小
 	result = compareByType(Alice.Type, Bob.Type)
 	if model.EQUAL == result {
 		//同一类型牌面比较
