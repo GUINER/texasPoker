@@ -17,7 +17,7 @@ func ParseTwoHandCard(alice, bob *model.HandCards) {
 		} else {
 			FiveCardParse(alice)
 		}
-		if alice.IsGhost {
+		if bob.IsGhost {
 			SevenCardParse(bob)
 		} else {
 			FiveCardParse(bob)

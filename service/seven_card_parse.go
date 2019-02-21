@@ -322,7 +322,10 @@ func SevenCardOnePairs(any *model.HandCards) bool {
 	lenght := len(cardface)
 
 	if any.IsGhost {
+		//fmt.Println(cardface, any)
+		cardface = strings.Replace(cardface, model.Ghost, cardface[lenght-2:lenght-1], 1)
 		any.SortFace = cardface[lenght-5:lenght]
+		//fmt.Println(any.SortFace)
 		return true
 	}
 	countLimit := 2
@@ -342,7 +345,7 @@ func SevenCardOnePairs(any *model.HandCards) bool {
 			single++
 		}
 		if 3 == single && 1 == pairs {	//2+1+1+1
-		any.SortFace = tmpface
+			any.SortFace = tmpface
 			return true
 		}
 	}

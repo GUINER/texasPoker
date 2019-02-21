@@ -44,7 +44,7 @@ func StartService(filename string) {
 
 		//3. 输出结果
 		//fmt.Printf("%d. ",k)
-		//OutputResult(alice.Src, bob.Src, result)
+		//OutputResult(&alice, &bob, result)
 		//if -1 == result {
 		//	fmt.Println(alice)
 		//	fmt.Println(bob)

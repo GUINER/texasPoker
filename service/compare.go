@@ -36,36 +36,71 @@ func CompareNoPair(aFace,bFace string) (result int) {
 	return model.EQUAL
 }
 
+func findPairs(face string) []string {
+	var pairsList []string
+	//lenght := len(face)
+	for i := len(face) - 1; i >= 0; i-- {
+		letter := face[i:i+1]
+		if count := strings.Count(face, letter); count == 2 {
+			pairsList = append(pairsList, letter)
+			i--
+		}
+	}
+	return pairsList
+}
+
 //一对
 func CompareOnePair(aFace,bFace string) (result int) {
-	len := len(aFace)
-	for i := len; i > 0; i-- {
-		a := aFace[i - 1:i]
-		b := bFace[i - 1:i]
+	aList := findPairs(aFace)
+	bList := findPairs(bFace)
+	//fmt.Println(aFace, aList, bFace, bList)
+	result = compareLetter(aList[0], bList[0])
+	if model.EQUAL != result {
+		return result
+	}
+	aFace = strings.Replace(aFace, aList[0], "", 0)
+	bFace = strings.Replace(bFace, bList[0], "", 0)
+	//len := len(aFace)
 
-		result = compareLetter(a, b)
+	for i := len(aFace) - 1; i > 0; i-- {
+		//a := aFace[i-1:i]
+		//b := bFace[i-1:i]
+
+		result = compareLetter(	aFace[i:i+1], bFace[i:i+1])
 		if model.EQUAL != result {
 			return result
 		}
-		if i == len {
-			i--
-		}
+		//if i == len {
+		//	i--
+		//}
 	}
 	return model.EQUAL
 }
 
 //二对
 func CompareTwoPair(aFace,bFace string) (result int) {
-	len := len(aFace)
-	for i := len; i > 0;  {
-		a := aFace[i - 1:i]
-		b := bFace[i - 1:i]
+	aList := findPairs(aFace)
+	bList := findPairs(bFace)
 
-		result = compareLetter(a, b)
+	for i := 0; i < 2; i++ {
+		result = compareLetter(aList[i], bList[i])
 		if model.EQUAL != result {
 			return result
 		}
-		i = i - 2
+		aFace = strings.Replace(aFace, aList[i], "", 1)
+		bFace = strings.Replace(bFace, bList[i], "", 1)
+	}
+
+	//lenght := len(aFace)
+	for i := len(aFace) - 1; i >= 0; i-- {
+		//a := aFace[i:i+1]
+		//b := bFace[i:i+1]
+
+		result = compareLetter(aFace[i:i+1], bFace[i:i+1])
+		if model.EQUAL != result {
+			return result
+		}
+		//i = i - 2
 	}
 	return model.EQUAL
 }

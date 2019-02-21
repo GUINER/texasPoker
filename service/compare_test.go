@@ -22,3 +22,19 @@ func TestCompareTwoHandCard(t *testing.T) {
 
 	fmt.Printf("alice[%s] - bob[%s], result: %d\n", alice.Src, bob.Src, result)
 }
+
+func TestCompareOnePair(t *testing.T) {
+	a := "226JK"
+	b := "347JX"
+	result := CompareOnePair(a, b)
+
+	fmt.Println(result)
+}
+
+func TestCompareTwoPair(t *testing.T) {
+	a := "66JQQ"
+	b := "66JJQ"
+	result := CompareTwoPair(a, b)
+
+	fmt.Println(result)
+}
