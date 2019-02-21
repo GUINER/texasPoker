@@ -12,6 +12,7 @@ func main() {
 	var beginTime time.Time
 	var finishTime time.Time
 
+	// texas poker
 	fmt.Print("5张无赖子 ")
 	beginTime = time.Now()
 	service.StartService("texasPoker/data/match.json")
