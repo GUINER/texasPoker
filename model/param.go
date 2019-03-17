@@ -4,9 +4,7 @@ package model
 //一手牌的牌种类
 const (
 	FiveCard 	= 5
-	FiveCardWithGhost =  6
 	SevenCard 	= 7
-	SevenCardWithGhost = 8
 )
 
 const CardAmount = FiveCard
