@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"myproject/texasPoker/service"
+	"texasPoker/service"
 	"time"
 )
 

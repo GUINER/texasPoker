@@ -7,7 +7,7 @@ package service
 
 import (
 	"fmt"
-	"myproject/texasPoker/model"
+	"texasPoker/model"
 	"strings"
 	//"regexp"
 )

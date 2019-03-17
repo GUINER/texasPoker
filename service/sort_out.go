@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"myproject/texasPoker/model"
+	"texasPoker/model"
 )
 
 // 快速排列算法

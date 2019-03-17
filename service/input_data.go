@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"myproject/texasPoker/model"
+	"texasPoker/model"
 )
 
 func GetPokerJsonData(filename string, v interface{}) {

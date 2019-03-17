@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"myproject/texasPoker/model"
+	"texasPoker/model"
 )
 
 func OutputResult(alice,bob *model.HandCards, result int){
