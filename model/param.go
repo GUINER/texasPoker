@@ -143,6 +143,7 @@ type OnePoker struct {
 	Result 	int 	`json:"result" fname:"比较结果"`
 }
 
+// 输入源
 type PokerData struct {
 	Matchs []OnePoker `json:"matches" fname:"poker数据"`
 }
