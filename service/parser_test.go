@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
-	"texasPoker/model"
 	"testing"
+	"texasPoker/model"
 )
 
 //=========================7张牌测试=======================
@@ -20,10 +20,10 @@ func TestSevenCardHasStraight(t *testing.T) {
 
 func TestSevenCardParse(t *testing.T) {
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAs7h7dXn7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAh7dXn7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAh7d9h7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AdKcJcQcTcKsAs"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAs7h7dXn7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7dXn7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7d9h7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AdKcJcQcTcKsAs"})
 	//alice := model.HandCards{
 	//	//SortFace: 	"TJQKKAA",
 	//	IsGhost:	false,
@@ -46,9 +46,9 @@ func TestSevenCardParse(t *testing.T) {
 // 测试7张牌是否有同花
 func TestSevenCardHasFlush(t *testing.T) {
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"XnAc5cTcKh6d9h",})
-	PokerList = append(PokerList, model.HandCards{Src:"XnAc5cTcKc6d9h",})
-	PokerList = append(PokerList, model.HandCards{Src:"9cAc5cTcKc6d9h",})
+	PokerList = append(PokerList, model.HandCards{Src: "XnAc5cTcKh6d9h"})
+	PokerList = append(PokerList, model.HandCards{Src: "XnAc5cTcKc6d9h"})
+	PokerList = append(PokerList, model.HandCards{Src: "9cAc5cTcKc6d9h"})
 	//PokerList = append(PokerList, model.HandCards{Src:"XnAc5cTcKh6d9h",IsGhost:true,})
 	//PokerList = append(PokerList, model.HandCards{Src:"XnAc5cTcKh6d9h",IsGhost:true,})
 
@@ -63,13 +63,12 @@ func TestSevenCardHasFlush(t *testing.T) {
 	}
 }
 
-
 func TestSevenCardFourOfAKind(t *testing.T) {
 	//4+X,3+1+X,4+1
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAs7h7dXn7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAh7dXn7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAh7d9h7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAs7h7dXn7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7dXn7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7d9h7c"})
 
 	for k, alice := range PokerList {
 		alice.IsGhost, _ = HasGhost(alice.Src)
@@ -85,12 +84,12 @@ func TestSevenCardFourOfAKind(t *testing.T) {
 func TestSevenCardFullHouseAndThreeKind(t *testing.T) {
 	// 3+2,3+2+X or 3+1+1,2+1+1+X
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAs7h7d7c6c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAd6d7h7dXn6c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsXn7d7c6c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAh7dXn7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAh7d9h7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAhXn9h7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAs7h7d7c6c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAd6d7h7dXn6c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsXn7d7c6c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7dXn7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7d9h7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAhXn9h7c"})
 
 	for k, alice := range PokerList {
 		alice.IsGhost, _ = HasGhost(alice.Src)
@@ -106,12 +105,12 @@ func TestSevenCardFullHouseAndThreeKind(t *testing.T) {
 func TestSevenCardFlush(t *testing.T) {
 	// 5, 4+X
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"AdKd9d7h7d7c6d"})
-	PokerList = append(PokerList, model.HandCards{Src:"XnAd6d7h7d3d5d"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsXn7d7c6c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAh7dXn7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAh7d9h7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdAsAhXn9h7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AdKd9d7h7d7c6d"})
+	PokerList = append(PokerList, model.HandCards{Src: "XnAd6d7h7d3d5d"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsXn7d7c6c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7dXn7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7d9h7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAhXn9h7c"})
 
 	for k, alice := range PokerList {
 		alice.IsGhost, _ = HasGhost(alice.Src)
@@ -127,12 +126,12 @@ func TestSevenCardFlush(t *testing.T) {
 func TestSevenCardTwoPairs(t *testing.T) {
 	//2+2+1
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"AdKd9d7h7d7c6d"})
-	PokerList = append(PokerList, model.HandCards{Src:"XnAd6d7h7d3d5d"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAdKsXn7dQc6c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcJd5sTh7dJc7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"Ac6d5sAh7d9h7c"})
-	PokerList = append(PokerList, model.HandCards{Src:"AcAd8s8h9c9h7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AdKd9d7h7d7c6d"})
+	PokerList = append(PokerList, model.HandCards{Src: "XnAd6d7h7d3d5d"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAdKsXn7dQc6c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcJd5sTh7dJc7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "Ac6d5sAh7d9h7c"})
+	PokerList = append(PokerList, model.HandCards{Src: "AcAd8s8h9c9h7c"})
 
 	for k, alice := range PokerList {
 		alice.IsGhost, _ = HasGhost(alice.Src)
@@ -148,12 +147,11 @@ func TestSevenCardTwoPairs(t *testing.T) {
 func TestSevenCardOnePairs(t *testing.T) {
 	// 2+1+1+1, 1+1+1+1+X
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"AdKd9d5h7d7c6d"})
-	PokerList = append(PokerList, model.HandCards{Src:"Ad4d9d5h7d7c6d"})
-	PokerList = append(PokerList, model.HandCards{Src:"AdTdJd8h7d7cKd"})
-	PokerList = append(PokerList, model.HandCards{Src:"XnAd6d7hTd3d5d"})
-	PokerList = append(PokerList, model.HandCards{Src:"XnAd6d6hTd3c3d"})
-
+	PokerList = append(PokerList, model.HandCards{Src: "AdKd9d5h7d7c6d"})
+	PokerList = append(PokerList, model.HandCards{Src: "Ad4d9d5h7d7c6d"})
+	PokerList = append(PokerList, model.HandCards{Src: "AdTdJd8h7d7cKd"})
+	PokerList = append(PokerList, model.HandCards{Src: "XnAd6d7hTd3d5d"})
+	PokerList = append(PokerList, model.HandCards{Src: "XnAd6d6hTd3c3d"})
 
 	for k, alice := range PokerList {
 		alice.IsGhost, _ = HasGhost(alice.Src)
@@ -169,10 +167,10 @@ func TestSevenCardOnePairs(t *testing.T) {
 func TestSevenCardNoPairs(t *testing.T) {
 	// 1+1+1+1+1
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"AdKd9d5h7d7c6d"})
-	PokerList = append(PokerList, model.HandCards{Src:"Ad4d9d5h7d7c6d"})
-	PokerList = append(PokerList, model.HandCards{Src:"AdTdJd8h7d7cKd"})
-	PokerList = append(PokerList, model.HandCards{Src:"XnAd6d7hTd3d5d"})
+	PokerList = append(PokerList, model.HandCards{Src: "AdKd9d5h7d7c6d"})
+	PokerList = append(PokerList, model.HandCards{Src: "Ad4d9d5h7d7c6d"})
+	PokerList = append(PokerList, model.HandCards{Src: "AdTdJd8h7d7cKd"})
+	PokerList = append(PokerList, model.HandCards{Src: "XnAd6d7hTd3d5d"})
 
 	for k, alice := range PokerList {
 		alice.IsGhost, _ = HasGhost(alice.Src)
@@ -187,7 +185,7 @@ func TestSevenCardNoPairs(t *testing.T) {
 
 func TestSevenCardStraightFlushAndFlush(t *testing.T) {
 	var PokerList []model.HandCards
-	PokerList = append(PokerList, model.HandCards{Src:"6d7dXn3hTd5h4d"})
+	PokerList = append(PokerList, model.HandCards{Src: "6d7dXn3hTd5h4d"})
 	//PokerList = append(PokerList, model.HandCards{Src:"Ad4d9d5h7d7c6d"})
 	//PokerList = append(PokerList, model.HandCards{Src:"AdTdJd8h7d7cKd"})
 	//PokerList = append(PokerList, model.HandCards{Src:"XnAd6d7hTd3d5d"})
@@ -201,6 +199,13 @@ func TestSevenCardStraightFlushAndFlush(t *testing.T) {
 	//	fmt.Print(k+1, ". ", alice)
 	//	fmt.Println(" handcard type: ", model.HandCardType[alice.Type])
 	//}
+}
+
+func TestParseTwoHandCard(t *testing.T) {
+	alice := model.HandCards{Src: "QdQd8c4s8c"}
+	bob := model.HandCards{Src: "Qc9sAcAsQh"}
+
+	timer("", func() { ParseTwoHandCard(&alice, &bob) })
 }
 
 //=========================7张牌测试end=======================

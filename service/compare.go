@@ -1,11 +1,11 @@
 package service
 
 import (
-	"texasPoker/model"
 	"strings"
+	"texasPoker/model"
 )
 
-func compareLetter(astr,bstr string) (result int) {
+func compareLetter(astr, bstr string) (result int) {
 	a := model.CardLetters[astr]
 	b := model.CardLetters[bstr]
 	if a > b {
@@ -17,21 +17,19 @@ func compareLetter(astr,bstr string) (result int) {
 	return model.EQUAL
 }
 
-
 //单张
-func CompareNoPair(aFace,bFace string) (result int) {
+func CompareNoPair(aFace, bFace string) (result int) {
 	len := len(aFace)
 
-	for i := len; i > 0 ; i--{
-		a := aFace[i - 1:i]
-		b := bFace[i - 1:i]
+	for i := len; i > 0; i-- {
+		a := aFace[i-1 : i]
+		b := bFace[i-1 : i]
 
-		result = compareLetter(a,b)
+		result = compareLetter(a, b)
 		if model.EQUAL != result {
 			return result
 		}
 	}
-
 
 	return model.EQUAL
 }
@@ -40,7 +38,7 @@ func findPairs(face string) []string {
 	var pairsList []string
 	//lenght := len(face)
 	for i := len(face) - 1; i >= 0; i-- {
-		letter := face[i:i+1]
+		letter := face[i : i+1]
 		if count := strings.Count(face, letter); count == 2 {
 			pairsList = append(pairsList, letter)
 			i--
@@ -50,7 +48,7 @@ func findPairs(face string) []string {
 }
 
 //一对
-func CompareOnePair(aFace,bFace string) (result int) {
+func CompareOnePair(aFace, bFace string) (result int) {
 	aList := findPairs(aFace)
 	bList := findPairs(bFace)
 	//fmt.Println(aFace, aList, bFace, bList)
@@ -66,7 +64,7 @@ func CompareOnePair(aFace,bFace string) (result int) {
 		//a := aFace[i-1:i]
 		//b := bFace[i-1:i]
 
-		result = compareLetter(	aFace[i:i+1], bFace[i:i+1])
+		result = compareLetter(aFace[i:i+1], bFace[i:i+1])
 		if model.EQUAL != result {
 			return result
 		}
@@ -78,7 +76,7 @@ func CompareOnePair(aFace,bFace string) (result int) {
 }
 
 //二对
-func CompareTwoPair(aFace,bFace string) (result int) {
+func CompareTwoPair(aFace, bFace string) (result int) {
 	aList := findPairs(aFace)
 	bList := findPairs(bFace)
 
@@ -105,29 +103,28 @@ func CompareTwoPair(aFace,bFace string) (result int) {
 	return model.EQUAL
 }
 
-
 //三条
-func CompareThreeOfAKind(aFace,bFace string) (result int) {
-	var a,b string
+func CompareThreeOfAKind(aFace, bFace string) (result int) {
+	var a, b string
 	lenght := len(aFace)
-	for i := 0; i < lenght - 3; i++ {
-		letter := aFace[i:i+1]
+	for i := 0; i < lenght-3; i++ {
+		letter := aFace[i : i+1]
 		if 3 == strings.Count(aFace, letter) {
 			a = letter
 			break
 		}
 	}
-	for i := 0; i < lenght - 3 ; i++ {
-		letter := bFace[i:i+1]
+	for i := 0; i < lenght-3; i++ {
+		letter := bFace[i : i+1]
 		if 3 == strings.Count(bFace, letter) {
 			b = letter
 			break
 		}
 	}
-	result = compareLetter(a,b)
+	result = compareLetter(a, b)
 	if model.EQUAL == result {
-		strings.Replace(aFace, a,"",3)
-		strings.Replace(bFace, b,"",3)
+		strings.Replace(aFace, a, "", 3)
+		strings.Replace(bFace, b, "", 3)
 		lenght = len(aFace)
 		for i := lenght; i > 0; i-- {
 			result = compareLetter(aFace[i-1:i], bFace[i-1:i])
@@ -137,17 +134,16 @@ func CompareThreeOfAKind(aFace,bFace string) (result int) {
 		}
 		return model.EQUAL
 	}
-	return compareLetter(a,b)
+	return compareLetter(a, b)
 }
 
-
 //顺子
-func CompareStraight(aFace,bFace string) (result int) {
-	Aidx,ok := model.StraightList[aFace]
+func CompareStraight(aFace, bFace string) (result int) {
+	Aidx, ok := model.StraightList[aFace]
 	if !ok {
 		return -1
 	}
-	Bidx,ok := model.StraightList[bFace]
+	Bidx, ok := model.StraightList[bFace]
 	if !ok {
 		return -1
 	}
@@ -161,73 +157,73 @@ func CompareStraight(aFace,bFace string) (result int) {
 }
 
 //同花
-func CompareFlush(aFace,bFace string) (result int) {
+func CompareFlush(aFace, bFace string) (result int) {
 	lenght := len(aFace)
-	a := aFace[lenght - 1:lenght]
-	b := bFace[lenght - 1:lenght]
+	a := aFace[lenght-1 : lenght]
+	b := bFace[lenght-1 : lenght]
 
-	return compareLetter(a,b)
+	return compareLetter(a, b)
 }
 
 //俘虏
-func CompareFullHouse(aFace,bFace string) (result int) {
-	var a,b string
+func CompareFullHouse(aFace, bFace string) (result int) {
+	var a, b string
 	lenght := len(aFace)
-	for i := 0; i < lenght - 3; i++ {
-		letter := aFace[i:i+1]
+	for i := 0; i < lenght-3; i++ {
+		letter := aFace[i : i+1]
 		if 3 == strings.Count(aFace, letter) {
 			a = letter
 			break
 		}
 	}
-	for i := 0; i < lenght - 3 ; i++ {
-		letter := bFace[i:i+1]
+	for i := 0; i < lenght-3; i++ {
+		letter := bFace[i : i+1]
 		if 3 == strings.Count(bFace, letter) {
 			b = letter
 			break
 		}
 	}
 
-	result = compareLetter(a,b)
+	result = compareLetter(a, b)
 	if model.EQUAL == result {
-		strings.Replace(aFace, a,"",3)
-		strings.Replace(bFace, b,"",3)
+		strings.Replace(aFace, a, "", 3)
+		strings.Replace(bFace, b, "", 3)
 		lenght = len(aFace)
 		//for i := lenght; i > 0; i-- {
-			result = compareLetter(aFace[0:1], bFace[0:1])
-			if model.EQUAL != result {
-				return result
-			}
+		result = compareLetter(aFace[0:1], bFace[0:1])
+		if model.EQUAL != result {
+			return result
+		}
 		//}
 		return model.EQUAL
 	}
 
-	return compareLetter(a,b)
+	return compareLetter(a, b)
 }
 
 //四条
-func CompareFourOfAKind(aFace,bFace string) (result int) {
-	var a,b string
+func CompareFourOfAKind(aFace, bFace string) (result int) {
+	var a, b string
 	lenght := len(aFace)
-	for i := 0; i < lenght - 3; i++ {
-		letter := aFace[i:i+1]
+	for i := 0; i < lenght-3; i++ {
+		letter := aFace[i : i+1]
 		if 4 == strings.Count(aFace, letter) {
 			a = letter
 			break
 		}
 	}
-	for i := 0; i < lenght - 3 ; i++ {
-		letter := bFace[i:i+1]
+	for i := 0; i < lenght-3; i++ {
+		letter := bFace[i : i+1]
 		if 4 == strings.Count(bFace, letter) {
 			b = letter
 			break
 		}
 	}
 
-	result = compareLetter(a,b)
+	result = compareLetter(a, b)
 	if model.EQUAL == result {
-		strings.Replace(aFace,a,"",4)
-		strings.Replace(bFace,b,"",4)
+		strings.Replace(aFace, a, "", 4)
+		strings.Replace(bFace, b, "", 4)
 		lenght = len(aFace)
 		for i := lenght; i > 0; i-- {
 			result = compareLetter(aFace[i-1:i], bFace[i-1:i])
@@ -242,12 +238,12 @@ func CompareFourOfAKind(aFace,bFace string) (result int) {
 }
 
 //同花顺
-func CompareStraightFlush(aFace,bFace string) (result int) {
-	Aidx,ok := model.StraightList[aFace]
+func CompareStraightFlush(aFace, bFace string) (result int) {
+	Aidx, ok := model.StraightList[aFace]
 	if !ok {
 		return -1
 	}
-	Bidx,ok := model.StraightList[bFace]
+	Bidx, ok := model.StraightList[bFace]
 	if !ok {
 		return -1
 	}
@@ -290,29 +286,12 @@ func compareByFace(aliceFace, bobFace string, pokerType int) (result int) {
 
 // 通过牌面的类型比较大小
 func compareByType(alice, bob int) (result int) {
-	if alice > bob {
+	switch {
+	case alice > bob:
 		return model.GREAT
-	}
-	if alice < bob {
+	case alice < bob:
 		return model.LESS
+	default:
+		return model.EQUAL
 	}
-	return model.EQUAL
-}
-
-func CompareTwoHandCard(Alice, Bob *model.HandCards) (result int) {
-
-	//1. 根据牌面排序
-	SortTwoHandCard(Alice, Bob)
-
-	//2. 解析
-	ParseTwoHandCard(Alice, Bob)
-
-	//3. 比较大小
-	result = compareByType(Alice.Type, Bob.Type)
-	if model.EQUAL == result {
-		//同一类型牌面比较
-		return compareByFace(Alice.SortFace, Bob.SortFace, Alice.Type)
-	}
-
-	return result
 }

@@ -1,5 +1,6 @@
 package model
 
+import "strings"
 
 //一手牌的牌种类
 const (
@@ -126,6 +127,14 @@ type HandCards struct {
 	Type 		int	   `json:"type" fname:"牌面类型"`
 	IsGhost		bool   `json:"is_ghost" fname:"是否有赖子"`
 }
+
+// 是否有赖子
+func (c * HandCards) CheckGhost() {
+	if count := strings.Count(c.SortFace, Ghost); count > 0 {
+		c.IsGhost = true
+	}
+}
+
 
 
 // 比较结果

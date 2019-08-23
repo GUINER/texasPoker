@@ -7,8 +7,8 @@ import (
 
 func ParseTwoHandCard(alice, bob *model.HandCards) {
 	// 是否带有赖子
-	alice.IsGhost, _ = HasGhost(alice.SortFace)
-	bob.IsGhost, _ 	 = HasGhost(bob.SortFace)
+	alice.CheckGhost()
+	bob.CheckGhost()
 
 	//1. 5张
 	if model.FiveCard == len(alice.SortFace) {

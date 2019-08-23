@@ -7,42 +7,40 @@ package service
 
 import (
 	"fmt"
-	"texasPoker/model"
 	"strings"
+	"texasPoker/model"
 	//"regexp"
 )
-
 
 /*
 *description: 判断是否为顺子
 *param: card: 一手卡牌
 *return: 判断结果,错误信息
-*/
+ */
 func CardIsStraight(cardFace string) (bool, error) {
 
-	if cardFace == ""  {
+	if cardFace == "" {
 		return false, fmt.Errorf("the cardFace %s is invalid", cardFace)
 	}
 	lenght := len(cardFace)
 	if model.FiveCard == lenght {
-		idx,ok := model.StraightList[cardFace]
+		idx, ok := model.StraightList[cardFace]
 		if !ok && idx < 1 {
 			return false, nil
 		}
 	}
 
-	return true,nil
+	return true, nil
 }
-
 
 /*
 *description: 判断花色是否都一样
 *param: card: 一手卡牌的牌色
 *return: 判断结果,错误信息
-*/
+ */
 func CardIsFlush(cardColor string) (bool, error) {
 
-	for _,v := range model.CardColor {
+	for _, v := range model.CardColor {
 		if strings.Count(cardColor, v) >= model.CardAmount {
 			return true, nil
 		}
@@ -68,18 +66,18 @@ func CardIsRoyalStraight(cardface string) bool {
 // 顺子的子分类
 func StraightSubClassify(handcard *model.HandCards) (err error) {
 	// 判断是否为同花
-	if IsFlush,err := CardIsFlush(handcard.SortColor); err != nil {
+	if IsFlush, err := CardIsFlush(handcard.SortColor); err != nil {
 		return fmt.Errorf("service.CardIsFlush error: %s", err.Error())
 	} else {
 		if true == IsFlush {
 			//fmt.Printf("card %s 是同花顺, %s\n", handcard.Src, handcard.Sort)
 			if IsRoyalStraight := CardIsRoyalStraight(handcard.SortFace); true == IsRoyalStraight {
-				handcard.Type = model.ROYALFLUSH	// 皇家同花顺
+				handcard.Type = model.ROYALFLUSH // 皇家同花顺
 			} else {
-				handcard.Type = model.STRAIGHTFLUSH	// 同花顺
+				handcard.Type = model.STRAIGHTFLUSH // 同花顺
 			}
 		} else {
-			handcard.Type = model.STRAIGHT	//顺子
+			handcard.Type = model.STRAIGHT //顺子
 		}
 	}
 
@@ -89,11 +87,11 @@ func StraightSubClassify(handcard *model.HandCards) (err error) {
 // 非顺子牌面的子分类
 func NotStraightSubClassify(handcard *model.HandCards) (err error) {
 	// 判断是否为同花
-	if IsFlush,err := CardIsFlush(handcard.SortColor); err != nil {
+	if IsFlush, err := CardIsFlush(handcard.SortColor); err != nil {
 		return fmt.Errorf("service.CardIsFlush error: %s", err.Error())
 	} else {
 		if true == IsFlush {
-			handcard.Type = model.FlUSH	// 同花
+			handcard.Type = model.FlUSH // 同花
 		} else {
 			err = OtherSubClassify(handcard)
 		}
@@ -101,10 +99,9 @@ func NotStraightSubClassify(handcard *model.HandCards) (err error) {
 	return nil
 }
 
-
 //判断牌面是否为四条
-func CardIsFourOfAKind(cardface string) (bool) {
-	for _,v := range model.FaceList {
+func CardIsFourOfAKind(cardface string) bool {
+	for _, v := range model.FaceList {
 		if 4 == strings.Count(cardface, v) {
 			return true
 		}
@@ -113,9 +110,9 @@ func CardIsFourOfAKind(cardface string) (bool) {
 }
 
 //是否包含Onepair
-func CardContainOnePair(cardface string) (bool) {
-	for i := 0 ; i < len(cardface) ; i++ {
-		face := cardface[i:i+1]
+func CardContainOnePair(cardface string) bool {
+	for i := 0; i < len(cardface); i++ {
+		face := cardface[i : i+1]
 		count := strings.Count(cardface, face)
 		if 2 == count {
 			return true
@@ -125,9 +122,9 @@ func CardContainOnePair(cardface string) (bool) {
 }
 
 //是否包含三条
-func CardIsThreeOfAKind(cardface string) (bool) {
-	for i := 0 ; i < len(cardface) ; i++ {
-		face := cardface[i:i+1]
+func CardIsThreeOfAKind(cardface string) bool {
+	for i := 0; i < len(cardface); i++ {
+		face := cardface[i : i+1]
 		count := strings.Count(cardface, face)
 		if 3 == count {
 			return true
@@ -139,7 +136,7 @@ func CardIsThreeOfAKind(cardface string) (bool) {
 //是否是二对
 func CardIsTwoPair(cardface string) bool {
 	pairs := 0
-	for i := 0; i < len(cardface)-1 ;  {
+	for i := 0; i < len(cardface)-1; {
 		count := strings.Count(cardface, cardface[i:i+1])
 		if 2 == count {
 			pairs++
@@ -155,7 +152,7 @@ func CardIsTwoPair(cardface string) bool {
 
 //是否包含一对
 func CardIsOnePair(cardface string) bool {
-	for i := 0; i < len(cardface)-1 ; {
+	for i := 0; i < len(cardface)-1; {
 		count := strings.Count(cardface, cardface[i:i+1])
 		if 2 == count {
 			return true
@@ -203,12 +200,16 @@ func FiveCardParse(handcard *model.HandCards) (err error) {
 	if IsStraight, err := CardIsStraight(handcard.SortFace); err != nil {
 		return fmt.Errorf("CardIsStraight error: %s", err.Error())
 	} else {
-		if IsStraight == true {	// 顺子类
+		if IsStraight == true { // 顺子类
 			err = StraightSubClassify(handcard)
-		} else {	//非顺子类
+		} else { //非顺子类
 			err = NotStraightSubClassify(handcard)
 		}
 	}
 
 	return nil
+}
+
+type FiveCard struct {
+	IsGhost bool
 }

@@ -2,17 +2,17 @@ package service
 
 import (
 	"fmt"
-	"texasPoker/model"
 	"strings"
+	"texasPoker/model"
 )
 
 // 7张牌中是否有顺子
-func SevenCardHasStraight(cardFace string) (bool) {
+func SevenCardHasStraight(cardFace string) bool {
 	for i := 0; i < len(cardFace); i++ {
-		letter := cardFace[i:i+1]
+		letter := cardFace[i : i+1]
 		count := strings.Count(cardFace, letter)
 		if count > 1 {
-			cardFace = strings.Replace(cardFace, letter,"", count-1)
+			cardFace = strings.Replace(cardFace, letter, "", count-1)
 		}
 	}
 	fmt.Println(cardFace)
@@ -20,7 +20,7 @@ func SevenCardHasStraight(cardFace string) (bool) {
 		return false
 	}
 	// 顺子
-	_,ok := model.StraightList[cardFace]
+	_, ok := model.StraightList[cardFace]
 	if !ok {
 		return false
 	}
@@ -85,15 +85,15 @@ func SevenCardStraightFlushAndFlush(any *model.HandCards, s string) {
 	}
 
 	for _, color := range model.CardColor {
-		if count := strings.Count(any.Sort, color); count >= countLimit {	//花色
+		if count := strings.Count(any.Sort, color); count >= countLimit { //花色
 			tmpface := ""
 			matchList := []string{}
 			handcard := any.Sort
 			for i := 0; i < count; i++ {
 				index := strings.IndexAny(handcard, color)
-				face := handcard[index-1: index]
+				face := handcard[index-1 : index]
 				matchList = append(matchList, face)
-				handcard = strings.Replace(handcard, face + color, "", 1)
+				handcard = strings.Replace(handcard, face+color, "", 1)
 				tmpface = tmpface + face
 				//fmt.Println(tmpface)
 			}
@@ -138,17 +138,17 @@ func SevenCardFourOfAKind(any *model.HandCards) bool {
 	}
 
 	for i := lenght - 1; i >= 0; i-- {
-		face := cardface[i:i+1]
+		face := cardface[i : i+1]
 		if count := strings.Count(cardface, face); count >= numLimit {
 			// 属于4条
 			any.SortFace = face + face + face + face
 			if 4 == count {
-				if any.IsGhost {	// 4+X
+				if any.IsGhost { // 4+X
 					any.SortFace = any.SortFace + model.Ghost
-				} else {	// 4+1
-					if i == lenght - 1 {
+				} else { // 4+1
+					if i == lenght-1 {
 						any.SortFace = cardface[i-4:i-3] + any.SortFace
-					} else if i < lenght - 1 {
+					} else if i < lenght-1 {
 						any.SortFace = any.SortFace + cardface[lenght-1:lenght]
 					}
 				}
@@ -157,7 +157,7 @@ func SevenCardFourOfAKind(any *model.HandCards) bool {
 				cardface = strings.Replace(cardface, face, "", count)
 				cardface = strings.Replace(cardface, model.Ghost, "", 1)
 				lenght = len(cardface)
-				b := cardface[lenght-1:lenght]
+				b := cardface[lenght-1 : lenght]
 				result := compareLetter(face, b)
 				if model.GREAT == result {
 					any.SortFace = b + any.SortFace
@@ -175,11 +175,12 @@ func SevenCardFourOfAKind(any *model.HandCards) bool {
 
 func genStrbyResult(a, b, c string, result int) string {
 	if model.GREAT == result {
-		return b+c+a
+		return b + c + a
 	} else {
-		return a+b+c
+		return a + b + c
 	}
 }
+
 // 俘虏/3条
 func SevenCardFullHouseAndThreeKind(any *model.HandCards) bool {
 	// 2+2+X, 3+2 or 3+1+1, 2+1+1+X
@@ -193,12 +194,12 @@ func SevenCardFullHouseAndThreeKind(any *model.HandCards) bool {
 	}
 
 	for i := lenght - 1; i >= 0; i-- {
-		face := cardface[i:i+1]
+		face := cardface[i : i+1]
 		if count := strings.Count(cardface, face); count >= numLimit {
 			any.SortFace = face + face + face
 			cardface = strings.Replace(cardface, face, "", count)
 			lenght = len(cardface)
-			letter := cardface[lenght-1:lenght]
+			letter := cardface[lenght-1 : lenght]
 
 			result := compareLetter(face, letter)
 			if 3 == count {
@@ -206,7 +207,7 @@ func SevenCardFullHouseAndThreeKind(any *model.HandCards) bool {
 					any.SortFace = genStrbyResult(any.SortFace, letter, letter, result)
 					any.Type = model.FULLHOUSE
 				} else { // 3+1+1
-					secondLetter := cardface[lenght-2:lenght-1]
+					secondLetter := cardface[lenght-2 : lenght-1]
 					if model.GREAT == result {
 						any.SortFace = secondLetter + letter + any.SortFace
 					} else {
@@ -223,7 +224,7 @@ func SevenCardFullHouseAndThreeKind(any *model.HandCards) bool {
 					any.SortFace = genStrbyResult(any.SortFace, letter, letter, result)
 					any.Type = model.FULLHOUSE
 				} else { // 2+1+1+X
-					secondLetter := cardface[lenght-2:lenght-1]
+					secondLetter := cardface[lenght-2 : lenght-1]
 					if model.GREAT == result {
 						any.SortFace = secondLetter + letter + any.SortFace
 					} else {
@@ -258,7 +259,7 @@ func SevenCardFlush(any *model.HandCards) bool {
 			num := 0
 
 			for i := lenght - 1; i >= 0; i-- {
-				tmpcolor := any.SortColor[i:i+1]
+				tmpcolor := any.SortColor[i : i+1]
 				if color == tmpcolor || "n" == tmpcolor {
 					tmpface = any.SortFace[i:i+1] + tmpface
 					num++
@@ -293,7 +294,7 @@ func SevenCardTwoPairs(any *model.HandCards) bool {
 	tmpface := ""
 
 	for i := lenght - 1; i >= 0; i-- {
-		face := cardface[i:i+1]
+		face := cardface[i : i+1]
 
 		if count := strings.Count(cardface, face); count == countLimit && pairs != countLimit {
 			if pairs == countLimit {
@@ -324,7 +325,7 @@ func SevenCardOnePairs(any *model.HandCards) bool {
 	if any.IsGhost {
 		//fmt.Println(cardface, any)
 		cardface = strings.Replace(cardface, model.Ghost, cardface[lenght-2:lenght-1], 1)
-		any.SortFace = cardface[lenght-5:lenght]
+		any.SortFace = cardface[lenght-5 : lenght]
 		//fmt.Println(any.SortFace)
 		return true
 	}
@@ -333,7 +334,7 @@ func SevenCardOnePairs(any *model.HandCards) bool {
 	tmpface := ""
 
 	for i := lenght - 1; i >= 0; i-- {
-		face := cardface[i:i+1]
+		face := cardface[i : i+1]
 		if count := strings.Count(cardface, face); count == countLimit {
 			if 1 == pairs {
 				continue
@@ -344,7 +345,7 @@ func SevenCardOnePairs(any *model.HandCards) bool {
 			tmpface = face + tmpface
 			single++
 		}
-		if 3 == single && 1 == pairs {	//2+1+1+1
+		if 3 == single && 1 == pairs { //2+1+1+1
 			any.SortFace = tmpface
 			return true
 		}
@@ -360,11 +361,10 @@ func SevenCardNoPairs(any *model.HandCards) bool {
 	}
 	cardface := any.SortFace
 	lenght := len(cardface)
-	any.SortFace = cardface[lenght-5:lenght]
+	any.SortFace = cardface[lenght-5 : lenght]
 
 	return true
 }
-
 
 // 其他牌型解析
 func SevenCardOtherClassParse(any *model.HandCards) {
@@ -400,7 +400,7 @@ func SevenCardOtherClassParse(any *model.HandCards) {
 }
 
 //	解析7张牌
-func SevenCardParse(any *model.HandCards)  {
+func SevenCardParse(any *model.HandCards) {
 	// 是否包含顺子
 	if isStraight, mStraight := SevenCardHasStraight2(any); isStraight {
 		// 是否包含同花
