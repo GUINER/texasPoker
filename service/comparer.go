@@ -5,53 +5,58 @@ import (
 	"texasPoker/model"
 )
 
-type PokerComparer struct {
+type PokerDealer struct {
 	Alice  *model.HandCards
 	Bob    *model.HandCards
 	Result int
 }
 
-func NewPokerComparer(alice, bob string) *PokerComparer {
-	return &PokerComparer{
+func NewPokerDealer(alice, bob string) *PokerDealer {
+	return &PokerDealer{
 		Alice: &model.HandCards{Src: alice},
 		Bob:   &model.HandCards{Src: bob},
 	}
 }
 
-func (pc *PokerComparer) sortCard() {
-	SortCard(pc.Alice)
-	SortCard(pc.Bob)
-}
-
-func (pc *PokerComparer) parseCard() {
-	ParseTwoHandCard(pc.Alice, pc.Bob)
-}
-
-func (pc *PokerComparer) compare() {
-	pc.Result = compareByType(pc.Alice.Type, pc.Bob.Type)
-
-	if model.EQUAL == pc.Result {
-		pc.Result = compareByFace(pc.Alice.SortFace, pc.Bob.SortFace, pc.Alice.Type)
+func (pd *PokerDealer) Compare() {
+	debugModel := true
+	if debugModel {
+		timer("sort card", func() { pd.sortCard() })
+		timer("parse card", func() { pd.parseCard() })
+		timer("compare card", func() { pd.compare() })
+	} else {
+		pd.sortCard()
+		pd.parseCard()
+		pd.compare()
 	}
 }
 
-func (pc *PokerComparer) Compare() {
-	pc.sortCard()
-
-	pc.parseCard()
-
-	pc.compare()
+func (pd *PokerDealer) sortCard() {
+	SortCard(pd.Alice)
+	SortCard(pd.Bob)
 }
 
-func (pc *PokerComparer) PrintResult() {
+func (pd *PokerDealer) parseCard() {
+	ParseTwoHandCard(pd.Alice, pd.Bob)
+}
+
+func (pd *PokerDealer) compare() {
+	if pd.Result = compareByType(pd.Alice.Type, pd.Bob.Type); model.EQUAL == pd.Result {
+		pd.Result = compareByFace(pd.Alice.SortFace, pd.Bob.SortFace, pd.Alice.Type)
+	}
+}
+
+func (pd *PokerDealer) PrintResult() {
+	symbol := ""
 	switch {
-	case pc.Result == model.EQUAL:
-		fmt.Printf("result: alice[%s][%s] = bob[%s][%s]\n", pc.Alice.Src, model.HandCardType[pc.Alice.Type], pc.Bob.Src, model.HandCardType[pc.Bob.Type])
-	case pc.Result == model.GREAT:
-		fmt.Printf("result: alice[%s][%s] > bob[%s][%s]\n", pc.Alice.Src, model.HandCardType[pc.Alice.Type], pc.Bob.Src, model.HandCardType[pc.Bob.Type])
-	case pc.Result == model.LESS:
-		fmt.Printf("result: alice[%s][%s] < bob[%s][%s]\n", pc.Alice.Src, model.HandCardType[pc.Alice.Type], pc.Bob.Src, model.HandCardType[pc.Bob.Type])
+	case pd.Result == model.EQUAL:
+		symbol = "="
+	case pd.Result == model.GREAT:
+		symbol = ">"
+	case pd.Result == model.LESS:
+		symbol = ">"
 	default:
-		fmt.Printf("unknown result[%d]: alice[%s][%s] - bob[%s][%s]\n", pc.Result, pc.Alice.Src, model.HandCardType[pc.Alice.Type], pc.Bob.Src, model.HandCardType[pc.Bob.Type])
+		symbol = "xxxxx" // unknown
 	}
+	fmt.Printf("result: alice[%s][%s] %s bob[%s][%s]\n", pd.Alice.Sort, model.HandCardType[pd.Alice.Type], symbol, pd.Bob.Sort, model.HandCardType[pd.Bob.Type])
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func TestCardIsStraight(t *testing.T) {
-	if isOk, err := CardIsStraight("23456"); err != nil {
+	if isOk := CardIsStraight("23456"); isOk {
 		fmt.Printf("非顺子\n")
 	} else {
 		if isOk {

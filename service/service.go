@@ -50,13 +50,10 @@ func Timer(name string, file string) {
 	fmt.Printf("共耗时：%.2f 毫秒\n", finishTime.Sub(beginTime).Seconds()*1000)
 }
 
-func StartPoker(Pokers *model.PokerData) {
-	for _, v := range Pokers.Matchs {
-		comparer := NewPokerComparer(v.Alice, v.Bob)
-
-		comparer.Compare()
-
-		//fmt.Printf("%d. ",k)
+func StartPoker(pokers *model.PokerData) {
+	for _, v := range pokers.Matchs {
+		dealer := NewPokerDealer(v.Alice, v.Bob)
+		dealer.Compare()
 		//comparer.PrintResult()
 	}
 }

@@ -271,7 +271,8 @@ func compareByFace(aliceFace, bobFace string, pokerType int) (result int) {
 	case model.FlUSH:
 		return CompareFlush(aliceFace, bobFace)
 	case model.STRAIGHT:
-		return CompareStraight(aliceFace, bobFace)
+		return
+		CompareStraight(aliceFace, bobFace)
 	case model.THREEOFAKIND:
 		return CompareThreeOfAKind(aliceFace, bobFace)
 	case model.TWOPAIR:

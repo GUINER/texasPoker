@@ -23,7 +23,7 @@ func TestSevenCardParse(t *testing.T) {
 	PokerList = append(PokerList, model.HandCards{Src: "AcAdAs7h7dXn7c"})
 	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7dXn7c"})
 	PokerList = append(PokerList, model.HandCards{Src: "AcAdAsAh7d9h7c"})
-	PokerList = append(PokerList, model.HandCards{Src: "AdKcJcQcTcKsAs"})
+	PokerList = append(PokerList, model.HandCards{Src: "AdAcAc4cTcKs6s"})
 	//alice := model.HandCards{
 	//	//SortFace: 	"TJQKKAA",
 	//	IsGhost:	false,
@@ -35,7 +35,10 @@ func TestSevenCardParse(t *testing.T) {
 	//fmt.Println(model.HandCardType[alice.Type])
 	for k, alice := range PokerList {
 		alice.IsGhost, _ = HasGhost(alice.Src)
-		SortCard(&alice)
+		timer("sort card", func() {
+			SortCard(&alice)
+		})
+
 		SevenCardParse(&alice)
 
 		fmt.Print(k+1, ". ", alice)
